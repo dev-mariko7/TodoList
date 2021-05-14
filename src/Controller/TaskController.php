@@ -4,8 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Task;
 use App\Form\TaskType;
+use App\Repository\TaskRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -69,28 +70,35 @@ class TaskController extends AbstractController
     /**
      * @Route("/tasks/{id}/toggle", name="task_toggle")
      */
-    public function toggleTaskAction( Request $request)
+    public function toggleTaskAction( TaskRepository $taskRepository, $id )
     {
-        $task = new Task();
-//        $form = $this->createForm(TaskType::class, $request);
-//        $form->handleRequest($request);
-//
-//        if ($form->isSubmitted() && $form->isValid()) {
-            $task->toggle(true);
-            $this->getDoctrine()->getManager()->flush();
+        $entityManager = $this->getDoctrine()->getManager();
+        $task = $entityManager->getRepository(Task::class)->find($id);
 
-            $this->addFlash('success', sprintf('La tâche %s a bien été marquée comme faite.', $task->getTitle()));
+        if (!$task) {
+            throw $this->createNotFoundException(
+                'Aucun produit trouvé pour l\id : '.$id
+            );
+        }
 
-            return $this->redirectToRoute('task_list');
-       // }
+        $task->toggle(1);
+        $entityManager->flush();
+
+        $this->addFlash('success', sprintf('La tâche %s a bien été marquée comme faite.', $task->getTitle()));
+
+        return $this->redirectToRoute('task_list');
+
 
     }
 
     /**
      * @Route("/tasks/{id}/delete", name="task_delete")
+     * @param Task $task
+     * @return Response
      */
-    public function deleteTaskAction(Task $task)
+    public function deleteTaskAction($id, TaskRepository $taskRepository): Response
     {
+        $task = $taskRepository->find($id);
         $em = $this->getDoctrine()->getManager();
         $em->remove($task);
         $em->flush();

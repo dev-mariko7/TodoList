@@ -33,6 +33,8 @@ class UserController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $password = $passwordEncoder->encodePassword($user, $user->getPassword());
             $user->setPassword($password);
+            $roles[] = 'ROLE_USER';
+            $user->setRoles($roles);
 
             $em->persist($user);
             $em->flush();
