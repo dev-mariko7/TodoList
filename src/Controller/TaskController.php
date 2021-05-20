@@ -17,7 +17,19 @@ class TaskController extends AbstractController
      */
     public function listAction()
     {
-        return $this->render('task/list.html.twig', ['tasks' => $this->getDoctrine()->getRepository('App:Task')->findAll()]);
+        return $this->render('task/list.html.twig', [
+            'tasks' => $this->getDoctrine()->getRepository('App:Task')->findBy([ "isDone" => 0 ])
+        ]);
+    }
+
+    /**
+     * @Route("/tasks-is-done", name="task_is_done")
+     */
+    public function taskListIsDone()
+    {
+        return $this->render('task/tasksdone.html.twig', [
+            'tasks' => $this->getDoctrine()->getRepository('App:Task')->findBy([ "isDone" => 1 ])
+        ]);
     }
 
     /**
@@ -47,8 +59,18 @@ class TaskController extends AbstractController
     /**
      * @Route("/tasks/{id}/edit", name="task_edit")
      */
-    public function editAction(Task $task, Request $request)
+    public function editAction(Request $request, $id)
     {
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $task = $entityManager->getRepository(Task::class)->find($id);
+
+        if (!$task) {
+            throw $this->createNotFoundException(
+                'Aucun produit trouvé pour l\id : '.$id
+            );
+        }
+
         $form = $this->createForm(TaskType::class, $task);
 
         $form->handleRequest($request);
@@ -81,7 +103,7 @@ class TaskController extends AbstractController
             );
         }
 
-        $task->toggle(1);
+        $task->isDone() ? $task->toggle(0) : $task->toggle(1);
         $entityManager->flush();
 
         $this->addFlash('success', sprintf('La tâche %s a bien été marquée comme faite.', $task->getTitle()));
