@@ -1,0 +1,28 @@
+name: Continious Integration
+
+on: push
+
+jobs:
+  quality:
+    name: Quality checks
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+      - name: Setup PHP Action
+        uses: shivammathur/setup-php@2.9.0
+        with:
+          php-version: '7.2.25'
+      - name: Install dependencies
+        run: composer update --prefer-dist --no-progress --no-suggest
+      - name: PHP Unit tests
+        if: ${{ always() }}
+        run: php bin/phpunit
+        #- name: doctrine
+        # if: ${{ always() }}
+        #run: php bin/console doctrine:database:create --env=test
+      # - run: symfony console doctrine:database:create --env=test
+      #- run: symfony console doctrine:migrations:migrate --force --env=test
+      #- run: symfony console doctrine:fixtures:load --force --env=test
+      #- run: symfony run bin/phpunit
+      #- run: echo "test complete"
