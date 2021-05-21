@@ -13,11 +13,13 @@ jobs:
         uses: shivammathur/setup-php@2.9.0
         with:
           php-version: '7.2.25'
-      - name: Install dependencies
+      - name: Install Dependenciers
+        run: composer install
+      - name: Update dependencies
         run: composer update --prefer-dist --no-progress
       - name: PHP Unit tests
         if: ${{ always() }}
-        run: php ./vendor/bin/phpunit
+        run: php bin/phpunit
         #- name: doctrine
         # if: ${{ always() }}
         #run: php bin/console doctrine:database:create --env=test
