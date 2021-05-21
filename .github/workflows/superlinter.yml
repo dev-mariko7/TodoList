@@ -23,7 +23,7 @@ jobs:
       - name: Migrate database
         run: php bin/console doctrine:schema:update --force --env=test
       - name: Data fixtures
-        run: php bin/console doctrine:fixtures:load --force --env=test
+        run: php bin/console doctrine:fixtures:load --env=test
       - name: PHP Unit tests
         if: ${{ always() }}
         run: php ./vendor/bin/phpunit
