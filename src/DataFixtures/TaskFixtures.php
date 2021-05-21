@@ -9,7 +9,7 @@ use Faker;
 
 class TaskFixtures extends Fixture
 {
-    const NUMBER_OF_TASK = 50;
+    public const NUMBER_OF_TASK = 50;
 
     public function load(ObjectManager $manager)
     {

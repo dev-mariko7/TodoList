@@ -19,7 +19,6 @@ class TaskRepository extends ServiceEntityRepository
         parent::__construct($registry, Task::class);
     }
 
-
     // /**
     //  * @return User[] Returns an array of User objects
     //  */

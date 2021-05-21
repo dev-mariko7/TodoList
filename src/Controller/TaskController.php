@@ -6,8 +6,8 @@ use App\Entity\Task;
 use App\Form\TaskType;
 use App\Repository\TaskRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class TaskController extends AbstractController
@@ -18,7 +18,7 @@ class TaskController extends AbstractController
     public function listAction()
     {
         return $this->render('task/list.html.twig', [
-            'tasks' => $this->getDoctrine()->getRepository('App:Task')->findBy([ "isDone" => 0 ])
+            'tasks' => $this->getDoctrine()->getRepository('App:Task')->findBy(['isDone' => 0]),
         ]);
     }
 
@@ -28,7 +28,7 @@ class TaskController extends AbstractController
     public function taskListIsDone()
     {
         return $this->render('task/tasksdone.html.twig', [
-            'tasks' => $this->getDoctrine()->getRepository('App:Task')->findBy([ "isDone" => 1 ])
+            'tasks' => $this->getDoctrine()->getRepository('App:Task')->findBy(['isDone' => 1]),
         ]);
     }
 
@@ -61,14 +61,11 @@ class TaskController extends AbstractController
      */
     public function editAction(Request $request, $id)
     {
-
         $entityManager = $this->getDoctrine()->getManager();
         $task = $entityManager->getRepository(Task::class)->find($id);
 
         if (!$task) {
-            throw $this->createNotFoundException(
-                'Aucun produit trouvé pour l\id : '.$id
-            );
+            throw $this->createNotFoundException('Aucun produit trouvé pour l\id : '.$id);
         }
 
         $form = $this->createForm(TaskType::class, $task);
@@ -92,15 +89,13 @@ class TaskController extends AbstractController
     /**
      * @Route("/tasks/{id}/toggle", name="task_toggle")
      */
-    public function toggleTaskAction( TaskRepository $taskRepository, $id )
+    public function toggleTaskAction(TaskRepository $taskRepository, $id)
     {
         $entityManager = $this->getDoctrine()->getManager();
         $task = $entityManager->getRepository(Task::class)->find($id);
 
         if (!$task) {
-            throw $this->createNotFoundException(
-                'Aucun produit trouvé pour l\id : '.$id
-            );
+            throw $this->createNotFoundException('Aucun produit trouvé pour l\id : '.$id);
         }
 
         $task->isDone() ? $task->toggle(0) : $task->toggle(1);
@@ -109,14 +104,12 @@ class TaskController extends AbstractController
         $this->addFlash('success', sprintf('La tâche %s a bien été marquée comme faite.', $task->getTitle()));
 
         return $this->redirectToRoute('task_list');
-
-
     }
 
     /**
      * @Route("/tasks/{id}/delete", name="task_delete")
+     *
      * @param Task $task
-     * @return Response
      */
     public function deleteTaskAction($id, TaskRepository $taskRepository): Response
     {

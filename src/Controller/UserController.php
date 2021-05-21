@@ -22,7 +22,7 @@ class UserController extends AbstractController
     /**
      * @Route("/users/create", name="user_create")
      */
-    public function createAction(Request $request, UserPasswordEncoderInterface $passwordEncoder )
+    public function createAction(Request $request, UserPasswordEncoderInterface $passwordEncoder)
     {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
@@ -50,7 +50,7 @@ class UserController extends AbstractController
     /**
      * @Route("/users/{id}/edit", name="user_edit", methods={"GET","POST"})
      */
-    public function editAction( Request $request, UserPasswordEncoderInterface $passwordEncoder)
+    public function editAction(Request $request, UserPasswordEncoderInterface $passwordEncoder)
     {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
