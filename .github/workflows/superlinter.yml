@@ -7,16 +7,27 @@ jobs:
     name: Quality checks
     runs-on: ubuntu-latest
 
+    services:
+      mysql:
+        image: mysql:8.0.18
+        env:
+          MYSQL_ROOT_USERNAME: root
+          ports:
+            3306
+          options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
     steps:
       - uses: actions/checkout@v1
       - name: Setup PHP Action
         uses: shivammathur/setup-php@2.9.0
         with:
           php-version: '7.4'
+          extensions: mbstring, xml, ctype, iconv, intl, pdo, pdo_mysql, dom, filter, gd, iconv, json, mbstring, pdo
       - name: Install dependencies
         run: composer install
       - name: Update dependencies
         run: composer update --prefer-dist --no-progress
+      - name: Create db
+        run: php bin/console doctrine:database:create --env=test
       - name: PHP Unit tests
         if: ${{ always() }}
         run: php ./vendor/bin/phpunit
