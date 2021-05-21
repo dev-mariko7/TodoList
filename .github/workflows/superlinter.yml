@@ -14,10 +14,10 @@ jobs:
         with:
           php-version: '7.2.25'
       - name: Install dependencies
-        run: composer update --prefer-dist --no-progress --no-suggest
+        run: composer update --prefer-dist --no-progress
       - name: PHP Unit tests
         if: ${{ always() }}
-        run: php bin/phpunit
+        run: php ./vendor/bin/phpunit
         #- name: doctrine
         # if: ${{ always() }}
         #run: php bin/console doctrine:database:create --env=test
