@@ -15,8 +15,6 @@ jobs:
           php-version: '7.2.25'
       - name: Install Dependenciers
         run: composer install
-      - name: Update dependencies
-        run: composer update --prefer-dist --no-progress
       - name: PHP Unit tests
         if: ${{ always() }}
         run: php bin/phpunit
