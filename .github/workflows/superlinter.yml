@@ -21,9 +21,9 @@ jobs:
       - name: Create db
         run: php bin/console doctrine:database:create --env=test
       - name: Migrate database
-        run: console doctrine:schema:update --force --env=test
+        run: php bin/console doctrine:schema:update --force --env=test
       - name: Data fixtures
-        run: symfony console doctrine:fixtures:load --force --env=test
+        run: php bin/console doctrine:fixtures:load --force --env=test
       - name: PHP Unit tests
         if: ${{ always() }}
         run: php ./vendor/bin/phpunit
