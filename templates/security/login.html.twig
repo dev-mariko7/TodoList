@@ -5,6 +5,7 @@
         <div class="alert alert-danger" role="alert">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
 
+    {% if not app.user %}
     <form method="post">
         <label for="inputUsername">Nom d'utilisateur :</label>
         <input type="text" id="inputUsername" name="username" value="{{ last_username }}" />
@@ -16,4 +17,6 @@
         >
         <button class="btn btn-success" type="submit">Se connecter</button>
     </form>
+    {% endif %}
+
 {% endblock %}
