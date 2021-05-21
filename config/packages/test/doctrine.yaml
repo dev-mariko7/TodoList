@@ -1,5 +1,6 @@
-#doctrine:
-#    dbal:
+doctrine:
+    dbal:
+      url: 'sqlite:///%kernel.project_dir%/var/cache/test/test.sqlite'
 #        # Overrides the database name in the test environment only
 #        # "host", "port", "user", & "password" can also be set to override their respective url parts
 #        #

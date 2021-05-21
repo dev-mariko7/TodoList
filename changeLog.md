@@ -2,6 +2,10 @@
 English TodoList ChangeLog
 --------------------------------------------------------------
 
+***** ChangeLog for 1.0.4 compared to 1.0.3 *****
+
+- NEW: Add Unit Testing for entities User et Task
+
 ***** ChangeLog for 1.0.3 compared to 1.0.2 *****
 
 - NEW: add friendsofphp/php-cs-fixer library
