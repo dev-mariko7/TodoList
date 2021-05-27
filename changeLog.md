@@ -12,7 +12,7 @@ English TodoList ChangeLog
 
 ***** ChangeLog for 1.0.2 compared to 1.0.1 *****
 
-NEW: data fixtures
+- NEW: data fixtures
 
 ***** ChangeLog for 1.0.1 compared to 1.0.0 *****
 
