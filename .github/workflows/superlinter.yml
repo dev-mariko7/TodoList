@@ -27,6 +27,8 @@ jobs:
       - name: PHP Unit tests
         if: ${{ always() }}
         run: php ./vendor/bin/phpunit
+      - name: Functionnal testing (behat)
+        run: php vendor/bin/behat
         #- name: doctrine
         # if: ${{ always() }}
         #run: php bin/console doctrine:database:create --env=test

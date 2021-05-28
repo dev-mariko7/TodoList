@@ -1,0 +1,14 @@
+default:
+    suites:
+        default:
+            contexts:
+                - Behat\MinkExtension\Context\MinkContext
+
+    extensions:
+        Behat\MinkExtension:
+            base_url: "https://localhost/"
+            default_session: symfony
+            sessions:
+                symfony:
+                    symfony: ~
+        FriendsOfBehat\SymfonyExtension: null
