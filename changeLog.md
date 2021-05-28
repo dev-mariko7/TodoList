@@ -1,6 +1,15 @@
 --------------------------------------------------------------
 English TodoList ChangeLog
 --------------------------------------------------------------
+***** ChangeLog for 1.2.4 compared to 1.1.4 *****
+
+- NEW: Add Functionnal testing with behat
+
+***** ChangeLog for 1.1.4 compared to 1.0.4 *****
+
+- NEW: Add Continious Integration
+
+**** WARNING : Changing rules for versionning ****
 
 ***** ChangeLog for 1.0.4 compared to 1.0.3 *****
 
