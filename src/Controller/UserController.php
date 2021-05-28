@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserType;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -49,9 +50,9 @@ class UserController extends AbstractController
     /**
      * @Route("/users/{id}/edit", name="user_edit", methods={"GET","POST"})
      */
-    public function editAction(Request $request, UserPasswordEncoderInterface $passwordEncoder)
+    public function editAction(Request $request, $id, UserPasswordEncoderInterface $passwordEncoder, EntityManagerInterface $entityManager)
     {
-        $user = new User();
+        $user = $entityManager->getRepository(User::class)->find($id);
         $form = $this->createForm(UserType::class, $user);
 
         $form->handleRequest($request);
