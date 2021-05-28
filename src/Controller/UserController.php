@@ -26,14 +26,13 @@ class UserController extends AbstractController
     {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
-
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $password = $passwordEncoder->encodePassword($user, $user->getPassword());
             $user->setPassword($password);
-            $roles[] = 'ROLE_USER';
+            $form->getData('roles') === "user" ? $roles[] = 'ROLE_USER' : $roles[] = 'ROLE_ADMIN';
             $user->setRoles($roles);
 
             $em->persist($user);
