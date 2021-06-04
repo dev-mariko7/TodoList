@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserType;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -16,6 +17,7 @@ class UserController extends AbstractController
      */
     public function listAction()
     {
+        //$this->denyAccessUnlessGranted('ROLE_USER');
         return $this->render('user/list.html.twig', ['users' => $this->getDoctrine()->getRepository('App:User')->findAll()]);
     }
 
@@ -26,14 +28,15 @@ class UserController extends AbstractController
     {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
-
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $password = $passwordEncoder->encodePassword($user, $user->getPassword());
             $user->setPassword($password);
-            $roles[] = 'ROLE_USER';
+
+            $roles = [$form->get('roles')->getData()];
+
             $user->setRoles($roles);
 
             $em->persist($user);
@@ -50,17 +53,18 @@ class UserController extends AbstractController
     /**
      * @Route("/users/{id}/edit", name="user_edit", methods={"GET","POST"})
      */
-    public function editAction(Request $request, UserPasswordEncoderInterface $passwordEncoder)
+    public function editAction(Request $request, $id, UserPasswordEncoderInterface $passwordEncoder, EntityManagerInterface $entityManager)
     {
-        $user = new User();
-        $form = $this->createForm(UserType::class, $user);
 
+        $user = $entityManager->getRepository(User::class)->find($id);
+        $form = $this->createForm(UserType::class, $user);
+        //$this->denyAccessUnlessGranted('ROLE_USER');
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $password = $passwordEncoder->encodePassword($user, $user->getPassword());
             $user->setPassword($password);
-
+            $user->setRoles([$form->get('roles')->getData()]);
             $this->getDoctrine()->getManager()->flush();
 
             $this->addFlash('success', "L'utilisateur a bien été modifié");

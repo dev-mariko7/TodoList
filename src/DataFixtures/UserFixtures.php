@@ -22,18 +22,20 @@ class UserFixtures extends Fixture
     {
         $faker = Faker\Factory::create();
         $roles = ['ROLE_USER'];
+        $admin = ['ROLE_ADMIN'];
 
         for ($i = 1; $i <= self::NUMBER_OF_USERS; ++$i) {
             $user = new User();
             $user->setEmail($faker->email);
-            $user->setRoles($roles);
 
             if (1 === $i) {
                 $user->setUsername('username1');
                 $user->setPassword($this->passwordencoder->encodePassword($user, 'password1'));
+                $user->setRoles($admin);
             } else {
                 $user->setUsername($faker->userName);
                 $user->setPassword($this->passwordencoder->encodePassword($user, 'pass_'.$i));
+                $user->setRoles($roles);
             }
 
             $manager->persist($user);
