@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\Mixed_;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -95,8 +96,14 @@ class User implements UserInterface
     {
     }
 
-    public function setRoles(?array $roles): self
+    public function setRoles($roles): self
     {
+
+        if(!is_array($roles))
+        {
+            $this->roles = [$roles];
+        }
+
         $this->roles = $roles;
 
         return $this;

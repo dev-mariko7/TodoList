@@ -17,6 +17,7 @@ class UserController extends AbstractController
      */
     public function listAction()
     {
+        //$this->denyAccessUnlessGranted('ROLE_USER');
         return $this->render('user/list.html.twig', ['users' => $this->getDoctrine()->getRepository('App:User')->findAll()]);
     }
 
@@ -33,7 +34,9 @@ class UserController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $password = $passwordEncoder->encodePassword($user, $user->getPassword());
             $user->setPassword($password);
-            $form->getData('roles') === "user" ? $roles[] = 'ROLE_USER' : $roles[] = 'ROLE_ADMIN';
+
+            $roles = [$form->get('roles')->getData()];
+
             $user->setRoles($roles);
 
             $em->persist($user);
@@ -52,15 +55,16 @@ class UserController extends AbstractController
      */
     public function editAction(Request $request, $id, UserPasswordEncoderInterface $passwordEncoder, EntityManagerInterface $entityManager)
     {
+
         $user = $entityManager->getRepository(User::class)->find($id);
         $form = $this->createForm(UserType::class, $user);
-
+        //$this->denyAccessUnlessGranted('ROLE_USER');
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $password = $passwordEncoder->encodePassword($user, $user->getPassword());
             $user->setPassword($password);
-
+            $user->setRoles([$form->get('roles')->getData()]);
             $this->getDoctrine()->getManager()->flush();
 
             $this->addFlash('success', "L'utilisateur a bien été modifié");

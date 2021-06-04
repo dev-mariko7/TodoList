@@ -39,15 +39,16 @@
 
 <!-- Page Content -->
 <div class="container">
-    <div style="display: flex;justify-content: space-around;" class="row">
-        <div>
-            <a href="{{ path('user_create') }}" class="btn btn-primary">Créer un utilisateur</a>
-        </div>
-
+    <div style="display: flex;justify-content: flex-end;" class="row">
         {% if app.user %}
+            {% if app.user.roles.0 is same as 'ROLE_ADMIN' %}
             <div>
-                <span>Vous êtes connecté en tant que {{ app.user.username }}</span>
+                <a href="{{ path('user_create') }}" class="btn btn-primary">Créer un utilisateur</a>
             </div>
+            <div style="margin: 0px 7px 0px 7px;">
+                <a href="{{ path('user_list') }}" class="pull-right btn btn-primary">Voir la liste des utilisateurs</a>
+            </div>
+            {% endif %}
             <div>
                 <a href="{{ path('app_logout') }}" class="pull-right btn btn-danger">Se déconnecter</a>
             </div>
@@ -57,6 +58,13 @@
             <div>
                 <a href="{{ path('login') }}" class="btn btn-success">Se connecter</a>
             </div>
+        {% endif %}
+    </div>
+    <div>
+        {% if app.user %}
+        <div>
+            <span>Vous êtes connecté en tant que {{ app.user.username }}</span>
+        </div>
         {% endif %}
     </div>
     <br><br>
