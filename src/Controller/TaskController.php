@@ -2,16 +2,26 @@
 
 namespace App\Controller;
 
+use App\Controller\services\AnonymeUser;
 use App\Entity\Task;
+use App\Entity\User;
 use App\Form\TaskType;
 use App\Repository\TaskRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class TaskController extends AbstractController
 {
+
+    public function __construct(AnonymeUser $anonymeUser, EntityManagerInterface $entityManager, UserPasswordEncoderInterface $passwordEncoder)
+    {
+        $anonymeUser->updateAnonymeUser($entityManager, $passwordEncoder);
+    }
+
     /**
      * @Route("/tasks", name="task_list")
      */
@@ -39,12 +49,13 @@ class TaskController extends AbstractController
     {
         $task = new Task();
         $form = $this->createForm(TaskType::class, $task);
-
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-
+            $user = new User();
+            $getuser = $this->getDoctrine()->getManager()->getRepository(User::class)->find($this->getUser()->getId());
+            $task->setUser($getuser);
             $em->persist($task);
             $em->flush();
 
@@ -73,6 +84,8 @@ class TaskController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $getuser = $this->getDoctrine()->getManager()->getRepository(User::class)->find($this->getUser()->getId());
+            $task->setUser($getuser);
             $this->getDoctrine()->getManager()->flush();
 
             $this->addFlash('success', 'La tâche a bien été modifiée.');
