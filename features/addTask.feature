@@ -18,7 +18,7 @@ Feature:
     And the "task_title" field should contain "task1"
     And the "task_content" field should contain "La premiere task"
     When I press "Ajouter"
-    Then I should be on "/tasks"
+    Given I am on "/tasks"
     And I should see "Superbe ! La tâche a été bien été ajoutée."
 
   Scenario: Task failed to created (content field is empty)
@@ -35,7 +35,7 @@ Feature:
     And I fill in "test" for "task_title"
     And I fill in "" for "task_content"
     When I press "Ajouter"
-    And I should see "Vous devez saisir du contenu"
+    Then I should see "Vous devez saisir du contenu"
 
   Scenario: Task failed to created (title field is empty)
     When I go to "/login"
