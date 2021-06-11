@@ -8,7 +8,7 @@ Feature:
     And I fill in "username1" for "username"
     And I fill in "password1" for "password"
     When I press "Se connecter"
-    Given I am on "/login"
+    Then I should be on "/login"
     And I should see "Vous êtes connecté en tant que username1"
 
   Scenario: User successfully registred
@@ -52,14 +52,14 @@ Feature:
     And I fill in "pass2" for "user_password_second"
     And I fill in "emailtest@test.test" for "user_email"
     When I press "Ajouter"
-    Then I should see "Vous devez saisir un nom d'utilisateur."
+    And I should see "Vous devez saisir un nom d'utilisateur."
 
   Scenario: User failed to created (password and confirm password are different)
     When I go to "/login"
     And I fill in "username1" for "username"
     And I fill in "password1" for "password"
     When I press "Se connecter"
-    Given I am on "/login"
+    Then I should be on "/login"
     And I should see "Vous êtes connecté en tant que username1"
     When I go to "/users/create"
     Then I should see "Nom d'utilisateur"
