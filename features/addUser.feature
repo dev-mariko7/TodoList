@@ -23,6 +23,7 @@ Feature:
     And I should see "Mot de passe"
     And I should see "Tapez le mot de passe à nouveau"
     And I should see "Adresse email"
+    And I should see "Rôle"
     And I should see "Ajouter"
     And I fill in "user1" for "user_username"
     And I fill in "pass1" for "user_password_first"

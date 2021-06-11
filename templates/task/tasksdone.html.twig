@@ -20,7 +20,11 @@
                         <h4><a href="{{ path('task_edit', {'id' : task.id }) }}">{{ task.title }}</a></h4>
                         <p>{{ task.content | slice(0, 150) }}</p><br>
                         {% if task.user  %}
+                            {% if task.lastModification %}
+                            <span>Dernière modification le {{ task.lastModification | date("m/d/Y") }} par {{ task.user.username }}</span>
+                            {% else %}
                             <span>Dernière modification le {{ task.createdAt | date("m/d/Y") }} par {{ task.user.username }}</span>
+                            {% endif %}
                         {% endif %}
                     </div>
                     <div>

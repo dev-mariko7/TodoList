@@ -80,12 +80,14 @@ class TaskController extends AbstractController
         }
 
         $form = $this->createForm(TaskType::class, $task);
-
+        $timezone = new \DateTimeZone('Europe/Paris');
+        $time = new \DateTime('now', $timezone);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $getuser = $this->getDoctrine()->getManager()->getRepository(User::class)->find($this->getUser()->getId());
             $task->setUser($getuser);
+            $task->setLastModification($time);
             $this->getDoctrine()->getManager()->flush();
 
             $this->addFlash('success', 'La tâche a bien été modifiée.');
