@@ -31,4 +31,5 @@ security:
   access_control:
    - { path: ^/users, roles: ROLE_ADMIN }
    - { path: ^/users/create, roles: ROLE_USER }
+   - { path: ^/tasks, roles: IS_AUTHENTICATED_FULLY }
   # - { path: ^/profile, roles: ROLE_USER }

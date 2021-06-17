@@ -31,7 +31,7 @@ Feature:
     And I fill in "ROLE_USER" for "user_roles"
     And I fill in "emailtest@test.test" for "user_email"
     When I press "Ajouter"
-    Then I should be on "/users"
+    And I am on "/users"
     And I should see "Superbe ! L'utilisateur a bien été ajouté."
 
   Scenario: User failed to created (username field is empty)

@@ -18,7 +18,7 @@ Feature:
     And the "task_title" field should contain "task1"
     And the "task_content" field should contain "La premiere task"
     When I press "Ajouter"
-    Then I should be on "/tasks"
+    And I am on "/tasks"
     And I should see "Superbe ! La tâche a été bien été ajoutée."
 
   Scenario: Task failed to created (content field is empty)
