@@ -2,23 +2,33 @@
 
 namespace App\Controller;
 
+use App\Controller\services\AnonymeUser;
 use App\Entity\Task;
+use App\Entity\User;
 use App\Form\TaskType;
 use App\Repository\TaskRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class TaskController extends AbstractController
 {
+
+    public function __construct(AnonymeUser $anonymeUser, EntityManagerInterface $entityManager, UserPasswordEncoderInterface $passwordEncoder)
+    {
+        $anonymeUser->updateAnonymeUser($entityManager, $passwordEncoder);
+    }
+
     /**
      * @Route("/tasks", name="task_list")
      */
     public function listAction()
     {
         return $this->render('task/list.html.twig', [
-            'tasks' => $this->getDoctrine()->getRepository('App:Task')->findBy(['isDone' => 0]),
+            'tasks' => $this->getDoctrine()->getRepository('App:Task')->findBy(['isDone' => 0],['last_modification' => 'DESC']),
         ]);
     }
 
@@ -28,7 +38,7 @@ class TaskController extends AbstractController
     public function taskListIsDone()
     {
         return $this->render('task/tasksdone.html.twig', [
-            'tasks' => $this->getDoctrine()->getRepository('App:Task')->findBy(['isDone' => 1]),
+            'tasks' => $this->getDoctrine()->getRepository('App:Task')->findBy(['isDone' => 1],['last_modification' => 'DESC']),
         ]);
     }
 
@@ -39,12 +49,16 @@ class TaskController extends AbstractController
     {
         $task = new Task();
         $form = $this->createForm(TaskType::class, $task);
-
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-
+            $user = new User();
+            $timezone = new \DateTimeZone('Europe/Paris');
+            $time = new \DateTime('now', $timezone);
+            $getuser = $this->getDoctrine()->getManager()->getRepository(User::class)->find($this->getUser()->getId());
+            $task->setUser($getuser);
+            $task->setLastModification($time);
             $em->persist($task);
             $em->flush();
 
@@ -69,10 +83,14 @@ class TaskController extends AbstractController
         }
 
         $form = $this->createForm(TaskType::class, $task);
-
+        $timezone = new \DateTimeZone('Europe/Paris');
+        $time = new \DateTime('now', $timezone);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $getuser = $this->getDoctrine()->getManager()->getRepository(User::class)->find($this->getUser()->getId());
+            $task->setUser($getuser);
+            $task->setLastModification($time);
             $this->getDoctrine()->getManager()->flush();
 
             $this->addFlash('success', 'La tâche a bien été modifiée.');

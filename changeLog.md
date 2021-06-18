@@ -2,6 +2,14 @@
 English TodoList ChangeLog
 --------------------------------------------------------------
 
+***** ChangeLog for 1.4.4 compared to 1.3.4 *****
+
+- NEW: Add AnonymeUser class 
+- NEW: Adding the last modification date for a task
+- NEW: task is now associated to user
+- NEW: Added database purge and restarting data fixtures before each scenario
+- NEW: Start functionnal testing with phpunit
+
 ***** ChangeLog for 1.3.4 compared to 1.2.4 *****
 
 - NEW: Added the possibility to choose a role at creation

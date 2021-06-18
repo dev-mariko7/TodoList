@@ -3,6 +3,9 @@ default:
         default:
             contexts:
                 - Behat\MinkExtension\Context\MinkContext
+                - App\Tests\Behat\DoctrineContext:
+                    entityManager: '@doctrine.orm.default_entity_manager'
+                    passwordEncoder: '@security.user_password_encoder.generic'
 
     extensions:
         Behat\MinkExtension:
@@ -11,4 +14,6 @@ default:
             sessions:
                 symfony:
                     symfony: ~
-        FriendsOfBehat\SymfonyExtension: null
+        FriendsOfBehat\SymfonyExtension:
+            kernel:
+                environment: test
