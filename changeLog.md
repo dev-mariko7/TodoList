@@ -8,6 +8,7 @@ English TodoList ChangeLog
 - NEW: Adding the last modification date for a task
 - NEW: task is now associated to user
 - NEW: Added database purge and restarting data fixtures before each scenario
+- NEW: Start functionnal testing with phpunit
 
 ***** ChangeLog for 1.3.4 compared to 1.2.4 *****
 

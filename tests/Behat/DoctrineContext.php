@@ -12,6 +12,7 @@ use Doctrine\Common\DataFixtures\Loader;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Tools\SchemaTool;
+use Doctrine\ORM\Tools\ToolsException;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
@@ -34,7 +35,7 @@ final class DoctrineContext implements Context
     /**
      * @BeforceScenario
      *
-     * @throws \Doctrine\ORM\Tools\ToolsException
+     * @throws ToolsException
      */
     public function initDatabase()
     {
@@ -48,13 +49,12 @@ final class DoctrineContext implements Context
     {
         $purger = new ORMPurger();
         $executor = new ORMExecutor($this->entityManager, $purger);
-        $loader = new Loader();
 
-        //user
         $userDataFixtures = new UserFixtures($this->passwordencoder);
-        $loader->addFixture($userDataFixtures);
-        //task
         $taskDataFixtures = new TaskFixtures();
+
+        $loader = new Loader();
+        $loader->addFixture($userDataFixtures);
         $loader->addFixture($taskDataFixtures);
 
         $executor->execute($loader->getFixtures());

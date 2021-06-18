@@ -24,11 +24,11 @@ jobs:
         run: php bin/console doctrine:schema:update --force --env=test
       - name: Data fixtures
         run: php bin/console doctrine:fixtures:load --no-interaction --env=test
-      - name: PHP Unit tests
+      - name: PHP Unit tests et functionnals testing
         if: ${{ always() }}
         run: php ./vendor/bin/phpunit
-      - name: Functionnal testing (behat)
-        run: php vendor/bin/behat
+#      - name: Functionnal testing (behat)
+#        run: php vendor/bin/behat
         #- name: doctrine
         # if: ${{ always() }}
         #run: php bin/console doctrine:database:create --env=test

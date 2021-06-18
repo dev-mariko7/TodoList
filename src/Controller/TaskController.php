@@ -28,7 +28,7 @@ class TaskController extends AbstractController
     public function listAction()
     {
         return $this->render('task/list.html.twig', [
-            'tasks' => $this->getDoctrine()->getRepository('App:Task')->findBy(['isDone' => 0]),
+            'tasks' => $this->getDoctrine()->getRepository('App:Task')->findBy(['isDone' => 0],['last_modification' => 'DESC']),
         ]);
     }
 
@@ -38,7 +38,7 @@ class TaskController extends AbstractController
     public function taskListIsDone()
     {
         return $this->render('task/tasksdone.html.twig', [
-            'tasks' => $this->getDoctrine()->getRepository('App:Task')->findBy(['isDone' => 1]),
+            'tasks' => $this->getDoctrine()->getRepository('App:Task')->findBy(['isDone' => 1],['last_modification' => 'DESC']),
         ]);
     }
 
@@ -54,8 +54,11 @@ class TaskController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $user = new User();
+            $timezone = new \DateTimeZone('Europe/Paris');
+            $time = new \DateTime('now', $timezone);
             $getuser = $this->getDoctrine()->getManager()->getRepository(User::class)->find($this->getUser()->getId());
             $task->setUser($getuser);
+            $task->setLastModification($time);
             $em->persist($task);
             $em->flush();
 
