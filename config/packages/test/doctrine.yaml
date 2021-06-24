@@ -1,7 +1,7 @@
 doctrine:
   dbal:
-    url: 'sqlite:///%kernel.project_dir%/var/cache/test/test.sqlite'
-#    url: 'mysql://root:@127.0.0.1:3306/todolist?serverVersion=13&charset=utf8'
+#    url: 'sqlite:///%kernel.project_dir%/var/cache/test/test.sqlite'
+    url: 'mysql://root:@127.0.0.1:3306/todolist?serverVersion=13&charset=utf8'
 #        # Overrides the database name in the test environment only
 #        # "host", "port", "user", & "password" can also be set to override their respective url parts
 #        #
