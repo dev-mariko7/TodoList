@@ -2,6 +2,10 @@
 English TodoList ChangeLog
 --------------------------------------------------------------
 
+***** ChangeLog for 1.5.4 compared to 1.3.4 *****
+
+- NEW: Added of functionnals testing
+
 ***** ChangeLog for 1.4.4 compared to 1.3.4 *****
 
 - NEW: Add AnonymeUser class 
