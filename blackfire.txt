@@ -1,0 +1,6 @@
+Invoke-WebRequest -Uri "https://blackfire.io/api/v1/releases/installer.msi" -OutFile "blackfire.msi"
+msiexec /n /i blackfire.msi `
+BLACKFIRE_CLIENT_ID="446a0ad1-c748-4877-a6b6-1b63d47e38c0" `
+BLACKFIRE_CLIENT_TOKEN="cfad14dc73df25dcf3566ad94113077be04909cb4ceacb2184d1444f888f5111" `
+BLACKFIRE_SERVER_ID="e208c578-afc9-4765-aa36-80767fd9433d" `
+BLACKFIRE_SERVER_TOKEN="e3408a5e2729cb2f6041db6cb980e6c24b6e0ed1a84b15931964d5a101987c93"

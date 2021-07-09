@@ -14,7 +14,7 @@ class TaskFixtures extends Fixture implements DependentFixtureInterface
 
     public function load(ObjectManager $manager)
     {
-        $faker = Faker\Factory::create();
+        $faker = Faker\Factory::create('fr_FR');
 
         for ($i = 1; $i <= self::NUMBER_OF_TASK; ++$i) {
 

@@ -20,7 +20,7 @@ class UserFixtures extends Fixture
 
     public function load(ObjectManager $manager)
     {
-        $faker = Faker\Factory::create();
+        $faker = Faker\Factory::create('fr_FR');
         $roles = ['ROLE_USER'];
         $admin = ['ROLE_ADMIN'];
 
