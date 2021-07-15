@@ -11,6 +11,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class AnonymeUser
 {
+    //test
     public function updateAnonymeUser(EntityManagerInterface $entityManager, UserPasswordEncoderInterface $passwordEncoder)
     {
         $tasks = $entityManager->getRepository(Task::class)->findBy(['user'=> null]);
