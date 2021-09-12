@@ -24,8 +24,13 @@ class AnonymeUser
                     $anonymeUser = $entityManager->getRepository(User::class)->findBy(['username' => 'Anonyme']);
                 }
                 //dump($anonymeUser);exit;
-                $updateTask->setUser($anonymeUser[0]);
-                $entityManager->flush();
+                if($anonymeUser[0]){
+                    if($anonymeUser[0]->getRoles() !== "ROLE_ANONYME"){
+                        $anonymeUser[0]->setRoles(["ROLE_ANONYME"]);
+                    }
+                    $updateTask->setUser($anonymeUser[0]);
+                    $entityManager->flush();
+                }
             }
         }
     }
@@ -34,7 +39,7 @@ class AnonymeUser
     {
         $user->setUsername('Anonyme');
         $user->setPassword($passwordEncoder->encodePassword($user, 'password1'));
-        $user->setRoles(['USER_ROLE']);
+        $user->setRoles(['USER_ANONYME']);
         $user->setEmail('anonyme@anonyme.ano');
 
         $entityManager->persist($user);

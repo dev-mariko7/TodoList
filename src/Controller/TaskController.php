@@ -88,8 +88,8 @@ class TaskController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $getuser = $this->getDoctrine()->getManager()->getRepository(User::class)->find($this->getUser()->getId());
-            $task->setUser($getuser);
+            //$getuser = $this->getDoctrine()->getManager()->getRepository(User::class)->find($this->getUser()->getId());
+            //$task->setUser($getuser);
             $task->setLastModification($time);
             $this->getDoctrine()->getManager()->flush();
 
