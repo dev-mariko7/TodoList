@@ -16,7 +16,6 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class TaskController extends AbstractController
 {
-
     public function __construct(AnonymeUser $anonymeUser, EntityManagerInterface $entityManager, UserPasswordEncoderInterface $passwordEncoder)
     {
         $anonymeUser->update($entityManager, $passwordEncoder);
@@ -29,7 +28,7 @@ class TaskController extends AbstractController
     {
         //sleep(5);
         return $this->render('task/list.html.twig', [
-            'tasks' => $this->getDoctrine()->getRepository('App:Task')->findBy(['isDone' => 0],['last_modification' => 'DESC']),
+            'tasks' => $this->getDoctrine()->getRepository('App:Task')->findBy(['isDone' => 0], ['last_modification' => 'DESC']),
         ]);
     }
 
@@ -39,7 +38,7 @@ class TaskController extends AbstractController
     public function taskListIsDone()
     {
         return $this->render('task/tasksdone.html.twig', [
-            'tasks' => $this->getDoctrine()->getRepository('App:Task')->findBy(['isDone' => 1],['last_modification' => 'DESC']),
+            'tasks' => $this->getDoctrine()->getRepository('App:Task')->findBy(['isDone' => 1], ['last_modification' => 'DESC']),
         ]);
     }
 

@@ -57,6 +57,8 @@ class TaskTest extends WebTestCase
         // on se connecte
         $client = static::createClient();
         $crawler = $client->request('GET', '/');
+        /*$this->assertEquals(200, $client->getResponse()->getStatusCode(), $client->getResponse()->getContent());
+        $this->assertTrue($client->getResponse()->isSuccessful());*/
         $link = $crawler->selectLink('Se connecter')->link();
         $crawler = $client->click($link);
         $this->assertSame(1, $crawler->filter('html:contains("Nom d\'utilisateur")')->count());
@@ -65,7 +67,9 @@ class TaskTest extends WebTestCase
         $form['username'] = 'username1';
         $form['password'] = 'password1';
         $client->submit($form);
+        //echo $client->getResponse()->getContent();
         $crawler = $client->followRedirect();
+
         $this->assertSame(1, $crawler->filter('html:contains("Vous êtes connecté en tant que username1")')->count());
 
         // == ==== on arrive sur la page d'accueil ========
@@ -84,6 +88,7 @@ class TaskTest extends WebTestCase
         // submit
         $client->submit($form);
         $crawler = $client->followRedirect();
+
         $this->assertSame(1, $crawler->filter('html:contains("Superbe ! La tâche a été bien été ajoutée.")')->count());
     }
 

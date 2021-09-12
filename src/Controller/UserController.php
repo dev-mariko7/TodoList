@@ -55,7 +55,6 @@ class UserController extends AbstractController
      */
     public function editAction(Request $request, $id, UserPasswordEncoderInterface $passwordEncoder, EntityManagerInterface $entityManager)
     {
-
         $user = $entityManager->getRepository(User::class)->find($id);
         $form = $this->createForm(UserType::class, $user);
         //$this->denyAccessUnlessGranted('ROLE_USER');

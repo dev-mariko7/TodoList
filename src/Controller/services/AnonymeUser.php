@@ -2,30 +2,26 @@
 
 namespace App\Controller\services;
 
-
 use App\Entity\Task;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-
 
 class AnonymeUser
 {
     //test
     public function update(EntityManagerInterface $entityManager, UserPasswordEncoderInterface $passwordEncoder)
     {
-        $tasks = $entityManager->getRepository(Task::class)->findBy(['user'=> null]);
+        $tasks = $entityManager->getRepository(Task::class)->findBy(['user' => null]);
 
-        foreach ($tasks as $task)
-        {
-            if($task->getUser() === null)
-            {
+        foreach ($tasks as $task) {
+            if (null === $task->getUser()) {
                 $updateTask = $entityManager->getRepository(Task::class)->find($task->getId());
                 $user = new User();
-                $anonymeUser = $entityManager->getRepository(User::class)->findBy(['username'=>'Anonyme']);
-                if(!$anonymeUser) {
+                $anonymeUser = $entityManager->getRepository(User::class)->findBy(['username' => 'Anonyme']);
+                if (!$anonymeUser) {
                     $this->create($user, $passwordEncoder, $entityManager);
-                    $anonymeUser = $entityManager->getRepository(User::class)->findBy(['username'=>'Anonyme']);
+                    $anonymeUser = $entityManager->getRepository(User::class)->findBy(['username' => 'Anonyme']);
                 }
                 //dump($anonymeUser);exit;
                 $updateTask->setUser($anonymeUser[0]);
