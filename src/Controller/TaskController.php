@@ -28,7 +28,7 @@ class TaskController extends AbstractController
     {
         //sleep(5);
         return $this->render('task/list.html.twig', [
-            'tasks' => $this->getDoctrine()->getRepository('App:Task')->findBy(['isDone' => 0], ['last_modification' => 'DESC']),
+            'tasks' => $this->getDoctrine()->getRepository(Task::class)->findBy(['isDone' => 0], ['last_modification' => 'DESC']),
         ]);
     }
 
