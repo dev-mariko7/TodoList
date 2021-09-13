@@ -21,9 +21,8 @@
                         <p>{{ task.content | slice(0, 150) }}</p><br>
                         {% if task.user  %}
                             {% if task.lastModification %}
-                                <span>Dernière modification le {{ task.lastModification | date("m/d/Y") }} par {{ task.user.username }}</span>
-                            {% else %}
-                                <span>Dernière modification le {{ task.createdAt | date("m/d/Y") }} par {{ task.user.username }}</span>
+                                <span>Dernière modification le {{ task.lastModification | date("d/m/Y à H:i:s") }}</span><br>
+                                <span>Créée par {{ task.user.username }}</span>
                             {% endif %}
                         {% endif %}
                     </div>
@@ -33,7 +32,7 @@
                                 {% if not task.isDone %}Marquer comme faite{% else %}Marquer non terminée{% endif %}
                             </button>
                         </form>
-                        {% if app.user.id is same as task.user.id %}
+                        {% if (app.user.id is same as task.user.id) or (task.user.roles.0 is same as "ROLE_ANONYME" and app.user.roles.0 is same as "ROLE_ADMIN") %}
                             <form action="{{ path('task_delete', {'id' : task.id }) }}">
                                 <button style="margin-right: 10px!important;margin-top:10px;" class="btn btn-danger btn-sm pull-right">Supprimer</button>
                             </form>

@@ -14,12 +14,11 @@ class TaskFixtures extends Fixture implements DependentFixtureInterface
 
     public function load(ObjectManager $manager)
     {
-        $faker = Faker\Factory::create();
+        $faker = Faker\Factory::create('fr_FR');
 
         for ($i = 1; $i <= self::NUMBER_OF_TASK; ++$i) {
-
-            $user_ref_rand = rand(1,UserFixtures::NUMBER_OF_USERS);
-            $currentUser = $this->getReference("User".$user_ref_rand);
+            $user_ref_rand = rand(1, UserFixtures::NUMBER_OF_USERS);
+            $currentUser = $this->getReference('User'.$user_ref_rand);
 
             $task = new Task();
             $task->setTitle($faker->title);
@@ -36,8 +35,8 @@ class TaskFixtures extends Fixture implements DependentFixtureInterface
 
     public function getDependencies()
     {
-        return array(
+        return [
             UserFixtures::class,
-        );
+        ];
     }
 }

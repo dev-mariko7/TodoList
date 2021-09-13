@@ -1,0 +1,5 @@
+Invoke-WebRequest -Uri "https://blackfire.io/api/v1/releases/installer.msi" -OutFile "blackfire.msi"
+msiexec /n /i blackfire.msi `
+
+pour lancer blackfire
+blackfire agent:start

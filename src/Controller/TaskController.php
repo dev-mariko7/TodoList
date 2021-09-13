@@ -16,10 +16,9 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class TaskController extends AbstractController
 {
-
     public function __construct(AnonymeUser $anonymeUser, EntityManagerInterface $entityManager, UserPasswordEncoderInterface $passwordEncoder)
     {
-        $anonymeUser->updateAnonymeUser($entityManager, $passwordEncoder);
+        $anonymeUser->update($entityManager, $passwordEncoder);
     }
 
     /**
@@ -27,8 +26,9 @@ class TaskController extends AbstractController
      */
     public function listAction()
     {
+        //sleep(5);
         return $this->render('task/list.html.twig', [
-            'tasks' => $this->getDoctrine()->getRepository('App:Task')->findBy(['isDone' => 0],['last_modification' => 'DESC']),
+            'tasks' => $this->getDoctrine()->getRepository(Task::class)->findBy(['isDone' => 0], ['last_modification' => 'DESC']),
         ]);
     }
 
@@ -38,7 +38,7 @@ class TaskController extends AbstractController
     public function taskListIsDone()
     {
         return $this->render('task/tasksdone.html.twig', [
-            'tasks' => $this->getDoctrine()->getRepository('App:Task')->findBy(['isDone' => 1],['last_modification' => 'DESC']),
+            'tasks' => $this->getDoctrine()->getRepository('App:Task')->findBy(['isDone' => 1], ['last_modification' => 'DESC']),
         ]);
     }
 
@@ -88,8 +88,8 @@ class TaskController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $getuser = $this->getDoctrine()->getManager()->getRepository(User::class)->find($this->getUser()->getId());
-            $task->setUser($getuser);
+            //$getuser = $this->getDoctrine()->getManager()->getRepository(User::class)->find($this->getUser()->getId());
+            //$task->setUser($getuser);
             $task->setLastModification($time);
             $this->getDoctrine()->getManager()->flush();
 
